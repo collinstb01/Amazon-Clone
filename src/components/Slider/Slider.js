@@ -55,7 +55,6 @@ const Main = styled.div`
   }
   .carousel {
     max-width: 1500px;
-    margin: 0 auto;
     min-width: 100%;
   }
 
@@ -64,7 +63,6 @@ const Main = styled.div`
     z-index: 10000;
     margin-left: 5px;
     margin-right: 5px;
-    margin-bottom: 0 !important;
   }
 
   .carousel-item {
@@ -86,10 +84,8 @@ const Main = styled.div`
   @media screen and (max-width: 650px) {
     .home__row {
       flex-wrap: wrap;
-      margin: 0;
     }
     .carousel-item {
-      max-height: 155px;
     }
     /* .row__container {
     margin-top:-31px ;
@@ -97,7 +93,6 @@ const Main = styled.div`
   }
   @media screen and (max-width: 560px) {
     .carousel-item {
-      max-height: 80px;
     }
   }
 `;

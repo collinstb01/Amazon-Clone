@@ -21,15 +21,13 @@ const Products = () => {
   return (
     <Main>
       <div className="message">
-        {message ? (
-          <div>
+        {message && (
+          <div style={{display: !message ? "none" : "initial"}}>
             <div className="img-for-noservice">
               <img src={img} className="img1" />
             </div>
             <p>{message}</p>
           </div>
-        ) : (
-          ""
         )}
       </div>
       <h3>Products For You</h3>
