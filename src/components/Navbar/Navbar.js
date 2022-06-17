@@ -3,9 +3,8 @@ import styled from 'styled-components'
 import {BiSearch} from 'react-icons/bi';
 import {BiCartAlt} from 'react-icons/bi';
 import {BiLocationPlus} from 'react-icons/bi';
-import {useNavigate} from "react-router-dom"
-// import { Link } from 'react-router-dom';
-import {useDispatch} from "react-redux"
+import {Link, useNavigate} from "react-router-dom"
+import {useDispatch, useSelector} from "react-redux"
 import { fetchProductforSearch } from '../../features/productSlice/productSlice';
 
 function Navbar() {
@@ -13,6 +12,7 @@ function Navbar() {
     const [input, setInput] = useState('')
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const {carts} = useSelector((state) => state.cart)
     console.log(input)
     const handleSearch = () => {
         if (input === '') {
@@ -77,8 +77,10 @@ function Navbar() {
                     </span>
                 </div>
                     <div className="header__optionBasket">
+                        <Link to="/cart">
                         <BiCartAlt />
-                        <span className="header__optionLineTwo header__basketCount">0</span>
+                        </Link>
+                        <span className="header__optionLineTwo header__basketCount">{carts?.length}</span>
                     </div>
             </div>
         </Main>
@@ -90,12 +92,17 @@ export default Navbar
 const Main = styled.div`
     height: 60px;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     background-color: #131921;
     position: sticky;
     top: 0;
     z-index: 100;
 
+    @media (max-width: 600px) {
+        height: auto;
+        flex-direction: column;
+    }
 .header__logo {
     width: 100px;
     object-fit: contain;
@@ -106,11 +113,11 @@ const Main = styled.div`
     border-style: solid;
     border-width: 1px;
     border-radius: 3px;
-    padding: 6px;
-}
+    cursor: pointer;
+    @media (max-width: 700px) {
+        margin: 0 2px;
 
-.header__logo:hover {
-    border-color: white;
+    }
 }
 
 .header__delivery {

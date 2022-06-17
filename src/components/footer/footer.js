@@ -587,6 +587,7 @@ export default Footer
 
 const Main = styled.div`
 box-sizing: border-box;
+margin-top: 10px;
 .footer__button {
     height: 40px;
     display: flex;

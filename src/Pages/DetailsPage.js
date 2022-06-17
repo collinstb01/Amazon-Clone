@@ -10,11 +10,14 @@ import Footer from "../components/footer/footer";
 const DetailsPage = () => {
   const { detailsProduct, loading } = useSelector((state) => state.product);
   const dispatch = useDispatch();
-  const id = useParams();
-  console.log(id);
+  const _id = useParams()
+  const id = _id.id
+
+
+  console.log(detailsProduct);
   useEffect(() => {
-    dispatch(fetchProductforDetails(id.id));
-  }, [dispatch, id.id]);
+    dispatch(fetchProductforDetails(id));
+  }, [id.id]);
 
   console.log(detailsProduct);
   return (

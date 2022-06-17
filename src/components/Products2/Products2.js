@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { fetchProduct } from "../../features/productSlice/productSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Product from "./Product";
+import Product from "./Product2";
 import styled from "styled-components";
 import Loader from "../Loader";
 import NoNetwork from "../NoNetwork";
 
-const Products = () => {
+const Products2 = () => {
   const { products, loading } = useSelector((state) => state.product);
   const [message, setMessage] = useState("");
   console.log(products);
@@ -30,7 +30,7 @@ const Products = () => {
     {loading ? (
         <Loader />
       ) : (        
-          _products?.slice(0, 12).map((product) => (
+          _products?.slice(13, 21).map((product) => (
           <Product {...product} />
           ))
       )}
@@ -39,7 +39,7 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Products2;
 
 const Main = styled.div`
   width: 100%;

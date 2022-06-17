@@ -14,24 +14,22 @@ const SearchProducts = ({
   app_sale_price_currency,
   app_sale_price,
   product_id,
-  evaluate_rate
-}, {searchProducts}) => {
-
-  for (let i =0;i < arr.length; i++) {
-    for (let a =0;a < arr[i]; a++) {
-      console.log("s")
-    }  
-  }
+  evaluate_rate,
+  _searchProducts
+}) => {
 
   const rating = evaluate_rate?.charAt()
-  console.log(rating)
+  // console.log(rating)
   const _rating = parseInt(rating)
   console.log(typeof(_rating));
-  console.log(_rating)
+  // console.log(_rating)
+  for (let i =0;i < _rating; i++) {
+    arr.push("filled")
+  }
+
   const array = arr.push(_rating)
-  console.log(arr)
+  // console.log(arr)
   const [id, setid] = useState(product_id)
-  console.log(id)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handle = () => {
@@ -74,10 +72,15 @@ const Main = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: none;
+    overflow: hidden;
+    width:100%;
+    height: 250px;
 
     img {
-      width: 200px;
+      display: flex;
+    align-items: center;
+    justify-content: center;
+      width: 60%;
       height: auto;
     }
   }
@@ -89,7 +92,7 @@ const Main = styled.div`
     color: orange;
   }
   h1 {
-    font-size: 25px;
+    font-size: 20px;
     padding: 0px 10px;
   }
 `;

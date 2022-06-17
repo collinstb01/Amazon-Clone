@@ -1,35 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import Products from "../components/Products/Products";
+import { useDispatch, useSelector } from "react-redux";
 import SearchProducts from "../components/SearchProducts/SearchProducts";
 import Loader from "../components/Loader";
 import Footer from "../components/footer/footer";
 import { Button } from "react-bootstrap";
 import { BiStar } from "react-icons/bi";
+import NoNetwork from "../components/NoNetwork";
+import Category from "../components/Category";
 
 const SearchPage = () => {
   const [loadmore, setLoadmore] = useState(false);
-  const { searchProducts, loading } = useSelector((state) => state.product);
+  const { searchProducts, loading, categoryProducts } = useSelector((state) => state.product);
   const _searchProducts = searchProducts?.docs;
-  console.log(searchProducts);
+  console.log(categoryProducts)
 
   function handle() {
     setLoadmore((e) => !e);
   }
+  
+  
   return (
     <Main>
       <Navbar />
 
       <div className="bottom">
-        <div className="left"></div>
+        <div className="left">{
+        categoryProducts?.map((productCat) => 
+            < Category {...productCat} />
+        )}
+        </div>
         <div className="right">
           <div className="results">
             <h1>Results</h1>
             <p>Price and details may vary based on product color and size</p>
           </div>
           {loading && <Loader />}
+          {/* {
+            message && <NoNetwork />
+          } */}
           <div className="products">
             {!loadmore &&
               _searchProducts
@@ -37,7 +47,7 @@ const SearchPage = () => {
                 .map((product) => <SearchProducts {...product} />)}
             {loadmore &&
               _searchProducts?.map((product) => (
-                <SearchProducts {...product} searchProducts={searchProducts} />
+                <SearchProducts {...product}  _searchProducts={ _searchProducts} />
               ))}
           </div>
           <Button onClick={handle}>
@@ -61,8 +71,10 @@ const Main = styled.div`
   }
   .left {
     width: 25%;
-    background-color: black;
+    background-color: whitesmoke;
     height: 100vh;
+    position: sticky;
+    top: 0;
   }
   .right {
     width: 75%;
