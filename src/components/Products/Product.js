@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { addToCart } from "../../features/cartSlice/cartSlice";
 
-const Product = ({ product_title, product_main_image_url, product_id }) => {
+const Product = ({ product_title, product_main_image_url, product_id,app_sale_price }) => {
   const [id, setid] = useState(product_id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Product = ({ product_title, product_main_image_url, product_id }) => {
   };
   
   const handle2 = () => {
-    dispatch(addToCart({product_id, product_title, product_main_image_url }));
+    dispatch(addToCart({product_id, product_title, product_main_image_url,app_sale_price }));
     console.log({product_id, product_title, product_main_image_url });
   };
 

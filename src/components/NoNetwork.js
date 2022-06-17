@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import img from "../assets/img1.png";
+import img from "../assets/search.svg";
 
 const NoNetwork = ({ message }) => {
   return (
