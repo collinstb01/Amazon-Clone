@@ -7,6 +7,7 @@ import OneCartitem from "../components/OneCartItem/OneCartitem";
 import { clearCart } from "../features/cartSlice/cartSlice";
 import img from "../assets/cart1.png";
 import SubTotal from "../components/SubTotal";
+import { Button } from "react-bootstrap";
 
 const CartPage = () => {
   const { carts, totalPricee } = useSelector((state) => state.cart);
@@ -23,7 +24,7 @@ const CartPage = () => {
     <Main>
       <Navbar />
       <div className=" main">
-        <div>
+        <div className="left">
           {!carts.length && (
             <div className="empty-crat">
               <img src={img} />
@@ -34,7 +35,11 @@ const CartPage = () => {
             <OneCartitem {...val} />
           ))}
           <h1>{totalPricee}</h1>
-          {carts.length > 0 && <button onClick={handle}>Clear Cart</button>}
+          {carts.length > 0 && (
+            <Button className="clear-cart" variant="warning" onClick={handle}>
+              Clear Cart
+            </Button>
+          )}
         </div>
         <div>
           <SubTotal />
@@ -50,7 +55,6 @@ export default CartPage;
 const Main = styled.div`
   width: 100%;
   height: auto;
-  margin-top: 20px;
 
   .empty-crat {
     width: 100%;
@@ -63,6 +67,17 @@ const Main = styled.div`
   }
   .main {
     display: grid;
-    grid-template-columns: 85% 15%;
+    grid-template-columns: 75% 25%;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 100%;
+    }
+  }
+  .left {
+    width: 100%;
+  }
+  .clear-cart {
+    width: inherit;
+    color: white;
   }
 `;

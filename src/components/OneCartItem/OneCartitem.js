@@ -1,48 +1,77 @@
-import React from 'react'
-import styled from 'styled-components';
-import { removeProduct } from '../../features/cartSlice/cartSlice';
-import { useDispatch } from 'react-redux';
+import React from "react";
+import styled from "styled-components";
+import { addToCart, deleteProduct, removeProduct } from "../../features/cartSlice/cartSlice";
+import { useDispatch } from "react-redux";
+import { Button } from "react-bootstrap";
 
-const OneCartitem = ({Image, title, price, id, quantity, totalPrice}) => {
-    const dispatch = useDispatch()
+const OneCartitem = ({ Image, title, price, id, quantity, totalPrice }) => {
+  const dispatch = useDispatch();
 
-    const handle2 = () => {
-        console.log(id);
-        dispatch(removeProduct({id, price, quantity, totalPrice}));
-      };
+  const handle2 = () => {
+    console.log(id);
+    dispatch(deleteProduct(id));
+  };
+  const inc = () => {
+    dispatch(
+      addToCart({
+        product_id: id,
+        product_title: title,
+        product_main_image_url: Image,
+        app_sale_price: price,
+      })
+    );
+  };
+  const dec = () => {
+    dispatch(removeProduct({ id, price, quantity, totalPrice }));
+  };
   return (
     <Main className="cart">
-          <img className="cart__image" src={Image} alt="" />
-          <div className="cart__info">
-            <p className="cart__title">{title}</p>
-            <p className="cart__price">
-            <p><span>-</span> {quantity} <span>+</span> </p>
-              <small>$</small>
-              <p>{totalPrice}</p>
-            </p>
-            <div className="cart__rating">
-              {/* {Array(rating)
-                .fill()
-                .map((_, i) => (
-                  <p key={i}>⭐</p>
-                ))} */}
-              ⭐
-            </div>
-          </div>
-          <div className='price'>
-            <h5>{price}</h5>
-          </div>
-        </Main>
-  )
-}
+      <img className="cart__image" src={Image} alt="" />
+      <div className="cart__info">
+        <p className="cart__title">{title}</p>
+        <div>
+          <p className="cart__price">
+            <span className="increment-buttons">
+              <span>
+                <Button onClick={inc} variant="secondary" size="sm">
+                  +
+                </Button>
+              </span>{" "}
+              <span className="quantity">{quantity}</span>
+              <span>
+                <Button onClick={dec} variant="secondary" size="sm">
+                  -
+                </Button>
+              </span>{" "}
+            </span>
+            <span onClick={handle2} className="delete_cart_item">
+              Delete
+            </span>
+          </p>
+        </div>
+        <h6>Total Price: {totalPrice}$</h6>
+      </div>
+      <div className="price">
+        <h5>
+          <small>$</small>
+          {price}
+        </h5>
+      </div>
+    </Main>
+  );
+};
 
-export default OneCartitem
+export default OneCartitem;
 const Main = styled.div`
-    display: grid;
-    grid-template-columns: 20% 50% 30%;
-    border-bottom: 1px solid lightgray;
-    padding: 15px 0;
-    width: 85%;
+  display: grid;
+  grid-template-columns: 20% 50% 30%;
+  border-bottom: 1px solid lightgray;
+  padding: 15px 0;
+  width: 95%;
+  @media (max-width: 900px) {
+    width: 100%;
+    grid-template-columns: 20% 70% 10%;
+  }
   .cart__info {
     padding-left: 20px;
   }
@@ -62,15 +91,14 @@ const Main = styled.div`
     width: 180px;
     height: 180px;
   }
-  .cart__rating {
-    display: flex;
-  }
-
   .cart__title {
     font-size: 17px;
     font-weight: 800;
   }
-
+  .cart__price {
+    display: flex;
+    align-items: center;
+  }
   @media screen and (max-width: 400px) {
     .cart {
       flex-direction: column;
@@ -81,5 +109,16 @@ const Main = styled.div`
     display: flex;
     justify-content: flex-end;
   }
+  .delete_cart_item {
+    cursor: pointer;
+    padding: 5px;
+    box-shadow: inset -2px 0px 3px 0px #cdbcbc;
+  }
+  .quantity {
+    padding: 0px 7px;
+    text-align: center;
+  }
+  .increment-buttons {
+    margin-right: 5px;
+  }
 `;
-
