@@ -9,7 +9,6 @@ const Product = ({ product_title, product_main_image_url, product_id,app_sale_pr
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handle = () => {
-    console.log(product_id);
     navigate(`/details/${id}`);
     setid("");
   };

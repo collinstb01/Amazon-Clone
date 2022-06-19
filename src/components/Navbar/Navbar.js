@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import {BiSearch} from 'react-icons/bi';
 import {BiCartAlt} from 'react-icons/bi';
@@ -6,28 +6,38 @@ import {BiLocationPlus} from 'react-icons/bi';
 import {Link, useNavigate} from "react-router-dom"
 import {useDispatch, useSelector} from "react-redux"
 import { fetchProductforSearch } from '../../features/productSlice/productSlice';
+import { getUser } from '../../features/AuthSlice/AuthSlice';
 
 function Navbar() {
-    const user = false
+    const {user, users} = useSelector((state) => state.auth)
+    console.log(user, users)
     const [input, setInput] = useState('')
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const {carts} = useSelector((state) => state.cart)
-    console.log(input)
+
     const handleSearch = () => {
         if (input === '') {
             return 
         }
         dispatch(fetchProductforSearch(input))
-    console.log('sss')
+    // console.log('sss')
        navigate(`/search/query?${input}`)
     }
+    const id = user?._id
+    useEffect(() => {
+        dispatch(getUser(id))
+    
+    }, [])
+    
 
     return (
         <Main className="header">
-                <img
+               <Link to="/">
+               <img
                     className="header__logo"
                     src="https://pngimg.com/uploads/amazon/amazon_PNG25.png" alt="" />
+               </Link>
 
             <div className="header__delivery">
                 <div className="header__deliveryLogo">
@@ -53,11 +63,13 @@ function Navbar() {
             <div className="header__nav">
                     <div className="header__option">
                         <span className="header__optionLineOne">
-                            Hello {!user ? "Guest" : user.email}
+                            Hello {user ? user?.user?.name : "Guest"}
                         </span>
+                        <Link to="/auth">
                         <span className="header__optionLineTwo">
                             {user ? "Sign Out" : "Sign In"}
                         </span>
+                        </Link>
                     </div>
                     <div className="header__option">
                         <span className="header__optionLineOne">

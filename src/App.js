@@ -6,6 +6,7 @@ import CartPage from "./Pages/CartPage";
 import DetailsPage from "./Pages/DetailsPage";
 import Home from "./Pages/Home";
 import SearchPage from "./Pages/SearchPage";
+import Auth from "./Pages/Auth";
 
 const App = () => {
   return (
@@ -41,6 +42,14 @@ const App = () => {
             element={
               <div>
                 <CartPage />
+              </div>
+            }
+          />
+           <Route
+            path="/auth"
+            element={
+              <div>
+                <Auth />
               </div>
             }
           />

@@ -9,9 +9,7 @@ import NoNetwork from "../NoNetwork";
 const Products = () => {
   const { products, loading } = useSelector((state) => state.product);
   const [message, setMessage] = useState("");
-  console.log(products);
   const _products = products?.products_docs;
-  console.log(_products);
   const dispatch = useDispatch();
   console.log(message);
 

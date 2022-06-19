@@ -14,7 +14,7 @@ const SingleDetailPage = ({
   isPrime,
   product_overview,
 }) => {
-  const arr = Object.entries(product_overview)
+  const arr = Object?.entries(product_overview)
   console.log(arr)
   return (
     <Main>
