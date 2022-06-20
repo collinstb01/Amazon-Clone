@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import styled from "styled-components";
 import img from "../assets/images/logo.png";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { signUp } from "../features/AuthSlice/AuthSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { signUp,signIn } from "../features/AuthSlice/AuthSlice";
 import Loader from "../components/Loader";
 
 const Auth = () => {
-  const {message, loading} = useSelector((state) => state.auth)
-  console.log(message)
+  const {user, loading} = useSelector((state) => state.auth)
+
   const [input, setInput] = useState({
     name: "",
     email: "",
@@ -19,8 +19,7 @@ const Auth = () => {
   });
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  console.log(input);
-  const [signIn, setSignIn] = useState(true);
+  const [signin, setSignIn] = useState(true);
   const [show, setShow] = useState(false);
 
   const handle = (e) => {
@@ -31,20 +30,23 @@ const Auth = () => {
   };
 
   const handle2 = () => {
-    console.log("click");
     setSignIn((e) => !e);
-  };
-
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
+   if (!signin) {
     dispatch(signUp({input, navigate}))
+   } else {
+    dispatch(signIn({input, navigate}))
+   }
+   
     setShow(true)
   }
   return (
     <Main>
       <img src={img} />
       <form onSubmit={handleSubmit}>
-        {!signIn && (
+        {!signin && (
           <input
             placeholder="Enter Name"
             name="name"
@@ -64,7 +66,7 @@ const Auth = () => {
           value={input?.password}
           onChange={handle}
         />
-        {!signIn && (
+        {!signin && (
           <input
             placeholder="Confirm Password"
             name="confirmPassword"
@@ -75,7 +77,7 @@ const Auth = () => {
         <Button variant="secondary" type="submit">{signIn ? "Sign In" : "Sign Up"}</Button>
         <div onClick={handle2} className="signbtn">
           <span>
-            {signIn
+            {signin
               ? "Dont Have an account Sign Up"
               : "have an account with us, Log in"}
           </span>

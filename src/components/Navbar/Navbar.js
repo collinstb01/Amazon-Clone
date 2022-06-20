@@ -1,121 +1,132 @@
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import {BiSearch} from 'react-icons/bi';
-import {BiCartAlt} from 'react-icons/bi';
-import {BiLocationPlus} from 'react-icons/bi';
-import {Link, useNavigate} from "react-router-dom"
-import {useDispatch, useSelector} from "react-redux"
-import { fetchProductforSearch } from '../../features/productSlice/productSlice';
-import { getUser } from '../../features/AuthSlice/AuthSlice';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { BiSearch } from "react-icons/bi";
+import { BiCartAlt } from "react-icons/bi";
+import { BiLocationPlus } from "react-icons/bi";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductforSearch } from "../../features/productSlice/productSlice";
+import { getUser } from "../../features/AuthSlice/AuthSlice";
 
 function Navbar() {
-    const {user, users} = useSelector((state) => state.auth)
-    console.log(user, users)
-    const [input, setInput] = useState('')
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const {carts} = useSelector((state) => state.cart)
+  const { user } = useSelector((state) => state.auth);
+  
+  const [userr, setuser] = useState(
+    localStorage.getItem("profile")
+  );
 
-    const handleSearch = () => {
-        if (input === '') {
-            return 
-        }
-        dispatch(fetchProductforSearch(input))
-    // console.log('sss')
-       navigate(`/search/query?${input}`)
+  console.log(userr);
+
+  const { id } = useParams();
+  const [input, setInput] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { carts } = useSelector((state) => state.cart);
+
+  const handleSearch = () => {
+    if (input === "") {
+      return;
     }
-    const id = user?._id
-    useEffect(() => {
-        dispatch(getUser(id))
-    
-    }, [])
-    
+    dispatch(fetchProductforSearch(input));
+    // console.log('sss')
+    navigate(`/search/query?${input}`);
+  };
 
-    return (
-        <Main className="header">
-               <Link to="/">
-               <img
-                    className="header__logo"
-                    src="https://pngimg.com/uploads/amazon/amazon_PNG25.png" alt="" />
-               </Link>
+  useEffect(() => {
+    setuser(JSON.parse(localStorage.getItem("profile")))
+  }, [user]);
 
-            <div className="header__delivery">
-                <div className="header__deliveryLogo">
-                    <BiLocationPlus />
-                </div>
-                <div className="header__deliveryText">
-                    <div className="header__deliveryTextName">
-                        <p>Deliver to Bazos</p>
-                    </div>
+  const auth = () => {
+    if (userr) {
+       localStorage.removeItem("profile")
+       setuser(null)
+    }
+    navigate("/auth")
+  }
 
-                    <div className="header__deliveryTextLocation">
-                        <p>Istanbul 3400</p>
-                    </div>
-                </div>
-            </div>
+  return (
+    <Main className="header">
+      <Link to="/">
+        <img
+          className="header__logo"
+          src="https://pngimg.com/uploads/amazon/amazon_PNG25.png"
+          alt=""
+        />
+      </Link>
 
+      <div className="header__delivery">
+        <div className="header__deliveryLogo">
+          <BiLocationPlus />
+        </div>
+        <div className="header__deliveryText">
+          <div className="header__deliveryTextName">
+            <p>Deliver to Bazos</p>
+          </div>
 
-            <div className="header__search">
-                <input type="text" className="header__searchInput" value={input} onChange={(e) => setInput(e.target.value)}  />
-                <BiSearch className="header__searchIcon" onClick={handleSearch}/>
-            </div>
+          <div className="header__deliveryTextLocation">
+            <p>Istanbul 3400</p>
+          </div>
+        </div>
+      </div>
 
-            <div className="header__nav">
-                    <div className="header__option">
-                        <span className="header__optionLineOne">
-                            Hello {user ? user?.user?.name : "Guest"}
-                        </span>
-                        <Link to="/auth">
-                        <span className="header__optionLineTwo">
-                            {user ? "Sign Out" : "Sign In"}
-                        </span>
-                        </Link>
-                    </div>
-                    <div className="header__option">
-                        <span className="header__optionLineOne">
-                            Returns
-                        </span>
-                        <span className="header__optionLineTwo">
-                            & Orders
-                        </span>
-                    </div>
+      <div className="header__search">
+        <input
+          type="text"
+          className="header__searchInput"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+        />
+        <BiSearch className="header__searchIcon" onClick={handleSearch} />
+      </div>
 
-                <div className="header__option">
-                    <span className="header__optionLineOne">
-                        Your
-                    </span>
-                    <span className="header__optionLineTwo">
-                        Prime
-                    </span>
-                </div>
-                    <div className="header__optionBasket">
-                        <Link to="/cart">
-                        <BiCartAlt />
-                        </Link>
-                        <span className="header__optionLineTwo header__basketCount">{carts?.length}</span>
-                    </div>
-            </div>
-        </Main>
-    )
+      <div className="header__nav">
+        <div className="header__option">
+          <span className="header__optionLineOne">
+            Hello {userr ? userr?.user?.name : "Guest"}
+          </span>
+            <span className="header__optionLineTwo" onClick={auth}>
+              {userr ? "Sign Out" : "Sign In"}
+            </span>
+        </div>
+        <div className="header__option">
+          <span className="header__optionLineOne">Returns</span>
+          <span className="header__optionLineTwo">& Orders</span>
+        </div>
+
+        <div className="header__option">
+          <span className="header__optionLineOne">Your</span>
+          <span className="header__optionLineTwo">Prime</span>
+        </div>
+        <div className="header__optionBasket">
+          <Link to="/cart">
+            <BiCartAlt />
+          </Link>
+          <span className="header__optionLineTwo header__basketCount">
+            {carts?.length}
+          </span>
+        </div>
+      </div>
+    </Main>
+  );
 }
 
-export default Navbar
+export default Navbar;
 
 const Main = styled.div`
-    height: 60px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    background-color: #131921;
-    position: sticky;
-    top: 0;
-    z-index: 100;
+  height: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: #131921;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 
-    @media (max-width: 600px) {
-        height: auto;
-        flex-direction: column;
-    }
-.header__logo {
+  @media (max-width: 600px) {
+    height: auto;
+    flex-direction: column;
+  }
+  .header__logo {
     width: 100px;
     object-fit: contain;
     margin: 0 20px;
@@ -127,88 +138,82 @@ const Main = styled.div`
     border-radius: 3px;
     cursor: pointer;
     @media (max-width: 700px) {
-        margin: 0 2px;
-
+      margin: 0 2px;
     }
-}
+  }
 
-.header__delivery {
+  .header__delivery {
     margin-top: 6px;
     display: flex;
     align-items: center;
     margin-right: 15px;
     padding: 6px;
     border-color: #131921;
-    
-}
+  }
 
-.header__deliveryLogo {
+  .header__deliveryLogo {
     color: rgb(236, 234, 234);
     @media (max-width: 1000px) {
-        display: none;
+      display: none;
     }
-}
+  }
 
-.header__deliveryText {
+  .header__deliveryText {
     padding-left: 5px;
     font-size: 10px !important;
 
-      @media (max-width: 1000px) {
-        display: none;
+    @media (max-width: 1000px) {
+      display: none;
     }
-}
+  }
 
-.header__deliveryTextLocation {
+  .header__deliveryTextLocation {
     color: rgb(236, 233, 233);
-}
+  }
 
-.header__deliveryTextName {
+  .header__deliveryTextName {
     color: rgb(150, 149, 149);
-}
-p {
+  }
+  p {
     font-size: 13px;
     line-height: 10px;
-
-  
-}
-.header__search {
+  }
+  .header__search {
     display: flex;
     flex: 1;
     align-items: center;
     border-radius: 24px;
-}
+  }
 
-.header__searchInput {
+  .header__searchInput {
     height: 12px;
     padding: 10px;
     border: none;
     width: 100%;
     border-radius: 5px 0 0 5px;
-}
+  }
 
-.header__searchInput:focus {
+  .header__searchInput:focus {
     box-shadow: 0 0 3px 3px #cd9042;
     outline-style: none;
-}
+  }
 
-.header__searchIcon {
+  .header__searchIcon {
     padding: 5px;
     height: 22px !important;
     background-color: #cd9042;
-}
+  }
 
-.header__nav {
+  .header__nav {
     display: flex;
     justify-content: space-evenly;
-}
+  }
 
-.header__nav > a {
+  .header__nav > a {
     text-decoration: none;
-}
+  }
 
-
-
-.header__option {
+  .header__option {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
@@ -219,32 +224,32 @@ p {
     border-width: 1px;
     border-radius: 3px;
     padding: 6px;
-}
+  }
 
-.header__option:hover {
+  .header__option:hover {
     border-style: solid;
     border-width: 1px;
     border-radius: 3px;
     padding: 6px;
     border-color: white;
-}
+  }
 
-.header__searchIcon {
+  .header__searchIcon {
     padding: 5px;
     height: 22px !important;
     background-color: #cd9042;
-}
+  }
 
-.header__optionLineOne {
+  .header__optionLineOne {
     font-size: 10px;
-}
+  }
 
-.header__optionLineTwo {
+  .header__optionLineTwo {
     font-size: 13px;
     font-weight: 800;
-}
+  }
 
-.header__optionBasket {
+  .header__optionBasket {
     display: flex;
     align-items: center;
     color: white;
@@ -253,15 +258,14 @@ p {
     border-width: 1px;
     border-radius: 3px;
     padding: 9px 5px;
-}
+  }
 
-.header__optionBasket:hover {
+  .header__optionBasket:hover {
     border-color: white;
-}
+  }
 
-
-.header__basketCount {
+  .header__basketCount {
     margin-left: 10px;
     margin-right: 10px;
-}
-`
+  }
+`;

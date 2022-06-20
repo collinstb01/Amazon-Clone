@@ -21,6 +21,14 @@ const App = () => {
               </div>
             }
           />
+          <Route
+            path="/:id"
+            element={
+              <div>
+                <Home />
+              </div>
+            }
+          />
            <Route
             path="/search/:query"
             element={

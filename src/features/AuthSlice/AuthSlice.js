@@ -1,20 +1,6 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 import * as api from "../apiAuth"
 
-export const getUser = createAsyncThunk(
-    "auth/getUser",
-    async (id) => {
-
-        try {
-            const response = await api.getUser(id)
-            console.log(response.data)
-            return response.data
-        } catch (error) {
-            console.log(error)
-        }
-    }
-)
-
 export const signUp = createAsyncThunk(
     "auth/signup",
     async ({input, navigate}) => {
@@ -22,19 +8,44 @@ export const signUp = createAsyncThunk(
         try {
             const response = await api.signUp(input)
             console.log(response.data)
-            navigate("/")
+            navigate(`/${response?.data?.user?._id}`)
             return response.data
         } catch (error) {
             console.log(error)
         }
     }
 )
+export const signIn = createAsyncThunk(
+    "auth/signIn",
+    async ({input, navigate}) => {
 
+        try {
+            const response = await api.signIn(input)
+            console.log(response.data)
+            navigate(`/${response?.data?.user?._id}`)
+            return response.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+export const addToCart2 = createAsyncThunk(
+    "auth/addtocart",
+    async ({product_id, product_title, product_main_image_url,app_sale_price, userid}) => {
+
+        try {
+            const response = await api.addToCart2({product_id, product_title, product_main_image_url,app_sale_price, userid })
+            console.log(response.data)
+            return response.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        user:[],
-        users:[],
+        user: [],
         message:"",
         loading: true
     },
@@ -46,18 +57,20 @@ const authSlice = createSlice({
             return {...state}
         },
         [signUp.fulfilled]:(state, action) => {
-            return {...state, user: action.payload,loading: false}
+           
+            return {...state, user: localStorage.setItem("profile", JSON.stringify(action.payload))}
         },
         [signUp.rejected]:(state, action) => {
             return {...state,message: "User Already Exist"}
         },
-        [getUser.pending]:(state, action) => {
+        [signIn.pending]:(state, action) => {
             return {...state}
         },
-        [getUser.fulfilled]:(state, action) => {
-            return {...state, users: action.payload}
+        [signIn.fulfilled]:(state, action) => {
+           
+            return {...state, user:  localStorage.setItem("profile", JSON.stringify(action.payload))}
         },
-        [getUser.rejected]:(state, action) => {
+        [signIn.rejected]:(state, action) => {
             return {...state}
         }
     }

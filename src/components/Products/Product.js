@@ -3,8 +3,11 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { addToCart } from "../../features/cartSlice/cartSlice";
+import { addToCart2 } from "../../features/AuthSlice/AuthSlice";
 
 const Product = ({ product_title, product_main_image_url, product_id,app_sale_price }) => {
+  const user = JSON.parse(localStorage.getItem("Profile"))
+  console.log(user)
   const [id, setid] = useState(product_id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,6 +18,9 @@ const Product = ({ product_title, product_main_image_url, product_id,app_sale_pr
   
   const handle2 = () => {
     dispatch(addToCart({product_id, product_title, product_main_image_url,app_sale_price }));
+    if (user ) {
+      dispatch(addToCart2({product_id, product_title, product_main_image_url,app_sale_price, userid: user?.user?._id }))
+    }
     console.log({product_id, product_title, product_main_image_url });
   };
 

@@ -41,7 +41,7 @@ const Main = styled.div`
 
 
     img {
-      width: 200%;
+      width: 100%;
       height: auto;
     }
   }
