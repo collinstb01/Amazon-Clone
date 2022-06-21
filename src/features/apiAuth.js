@@ -8,3 +8,5 @@ const API = axios.create({
 export const signUp = (input) => API.post("/signUp", input)
 export const signIn = (input) => API.post("/signIn", input)
 export const addToCart2 = (data) => API.post("/addtocart", data)
+
+export const fetchUserProducts = (id) => API.get(`/fectchUserProducts/${id}`)

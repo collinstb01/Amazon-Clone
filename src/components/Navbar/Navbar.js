@@ -15,8 +15,6 @@ function Navbar() {
     localStorage.getItem("profile")
   );
 
-  console.log(userr);
-
   const { id } = useParams();
   const [input, setInput] = useState("");
   const navigate = useNavigate();
@@ -33,20 +31,27 @@ function Navbar() {
   };
 
   useEffect(() => {
-    setuser(JSON.parse(localStorage.getItem("profile")))
+    if (userr) {
+        setuser(JSON.parse(localStorage.getItem("profile")))
+    }
   }, [user]);
 
   const auth = () => {
-    if (userr) {
-       localStorage.removeItem("profile")
-       setuser(null)
-    }
+    localStorage.removeItem("profile")
+   
     navigate("/auth")
   }
+  const cartRoute = () => {
+    if (userr) {
+    navigate(`/${id}/cart`)
+    }
+    console.log(id)
+    navigate("/cart")
 
+  }
   return (
     <Main className="header">
-      <Link to="/">
+      <Link to={userr ? "/:id" : "/"}>
         <img
           className="header__logo"
           src="https://pngimg.com/uploads/amazon/amazon_PNG25.png"
@@ -97,10 +102,8 @@ function Navbar() {
           <span className="header__optionLineOne">Your</span>
           <span className="header__optionLineTwo">Prime</span>
         </div>
-        <div className="header__optionBasket">
-          <Link to="/cart">
+        <div className="header__optionBasket" onClick={cartRoute}>
             <BiCartAlt />
-          </Link>
           <span className="header__optionLineTwo header__basketCount">
             {carts?.length}
           </span>

@@ -17,6 +17,7 @@ const Auth = () => {
     password: "",
     confirmPassword: "",
   });
+  const user2 = localStorage.getItem("profile")
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [signin, setSignIn] = useState(true);
@@ -35,9 +36,9 @@ const Auth = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
    if (!signin) {
-    dispatch(signUp({input, navigate}))
+    dispatch(signUp({input, navigate, user2}))
    } else {
-    dispatch(signIn({input, navigate}))
+    dispatch(signIn({input, navigate, user2}))
    }
    
     setShow(true)

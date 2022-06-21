@@ -14,10 +14,10 @@ const OneCartitem = ({ Image, title, price, id, quantity, totalPrice }) => {
   const inc = () => {
     dispatch(
       addToCart({
-        product_id: id,
-        product_title: title,
-        product_main_image_url: Image,
-        app_sale_price: price,
+       id: id,
+        title: title,
+        Image: Image,
+        price: price,
       })
     );
   };

@@ -14,8 +14,10 @@ const SingleDetailPage = ({
   isPrime,
   product_overview,
 }) => {
-  const arr = Object?.entries(product_overview)
-  console.log(arr)
+  if (product_overview) {
+    const arr = Object?.entries(product_overview)
+  }
+  
   return (
     <Main>
       <div className="product-details">
@@ -39,8 +41,8 @@ const SingleDetailPage = ({
                 ? "We are trying hard to be in stock as soon as possible"
                 : "Fully In Stock"}
             </p>
-              {
-                arr?.map((val) => {
+              {product_overview &&
+               Object?.entries(product_overview)?.map((val) => {
                   return (
                     <div>
                       <span>{val[0]?.replace(/_/g, " ")}: </span>

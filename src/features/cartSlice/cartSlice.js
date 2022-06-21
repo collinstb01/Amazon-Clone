@@ -1,4 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import * as api from "../apiAuth"
+
+export const fetchUserProducts = createAsyncThunk(
+    "auth/fecthUserCartProducts",
+    async (id) => {
+
+        try {
+            const response = await api.fetchUserProducts(id)
+            console.log(response.data)
+            return response.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
 
 const CartSlice = createSlice({
     name: "cart",
@@ -57,7 +72,15 @@ const CartSlice = createSlice({
         }
     },
     extraReducers: {
-
+        [fetchUserProducts.pending]: (state, action) => {
+            return {...state}
+        },
+        [fetchUserProducts.fulfilled]: (state, action) => {
+            return {...state, carts: action.payload}
+        },
+        [fetchUserProducts.rejected]: (state, action) => {
+            return {...state, cart: action.payload}
+        }
     }
 })
 

@@ -9,27 +9,20 @@ import SearchPage from "./Pages/SearchPage";
 import Auth from "./Pages/Auth";
 
 const App = () => {
+  const user = localStorage.getItem("profile");
   return (
     <Router>
       <Main>
         <Routes>
+            <Route
+              path={!user ? "/" : "/:id"}
+              element={
+                <div>
+                  <Home />
+                </div>
+              }
+            />
           <Route
-            path="/"
-            element={
-              <div>
-                <Home />
-              </div>
-            }
-          />
-          <Route
-            path="/:id"
-            element={
-              <div>
-                <Home />
-              </div>
-            }
-          />
-           <Route
             path="/search/:query"
             element={
               <div>
@@ -37,7 +30,7 @@ const App = () => {
               </div>
             }
           />
-           <Route
+          <Route
             path="/details/:id"
             element={
               <div>
@@ -46,14 +39,15 @@ const App = () => {
             }
           />
           <Route
-            path="/cart"
+            path={!user ? "/cart" : "/:id/cart/"}
             element={
               <div>
                 <CartPage />
               </div>
             }
           />
-           <Route
+       
+            <Route
             path="/auth"
             element={
               <div>
@@ -61,6 +55,7 @@ const App = () => {
               </div>
             }
           />
+      
         </Routes>
       </Main>
     </Router>

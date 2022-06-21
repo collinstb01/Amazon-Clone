@@ -1,41 +1,57 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import styled from "styled-components";
 import Footer from "../components/footer/footer";
 import Navbar from "../components/Navbar/Navbar";
 import OneCartitem from "../components/OneCartItem/OneCartitem";
-import { clearCart } from "../features/cartSlice/cartSlice";
+import { clearCart, fetchUserProducts } from "../features/cartSlice/cartSlice";
 import img from "../assets/cart1.png";
 import SubTotal from "../components/SubTotal";
 import { Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 
 const CartPage = () => {
   const { carts, totalPricee } = useSelector((state) => state.cart);
-  const [id, setid] = useState("");
   const dispatch = useDispatch();
-
+  const { id } = useParams();
+  console.log(id);
   const handle = () => {
     dispatch(clearCart());
   };
-
-  const val2 = carts.map((val) => val.id);
+  let user = localStorage.getItem("profile");
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+    dispatch(fetchUserProducts(id));
+  }, [id]);
 
   return (
     <Main>
       <Navbar />
       <div className=" main">
         <div className="left">
-          {!carts.length && (
+          {!user ? !carts.length : !carts?.userProduct?.length && (
             <div className="empty-crat">
               <img src={img} />
               <h5>Please Add Something To Cart</h5>
             </div>
           )}
-          {carts?.map((val, i) => (
-            <OneCartitem {...val} />
-          ))}
+          {!user ? (
+            <>
+              {carts?.map((val, i) => (
+                <OneCartitem {...val}  key={i}/>
+              ))}
+            </>
+          ) : (
+            <>
+              {carts?.userProduct?.map((val, i) => (
+                <OneCartitem {...val} user={user} key={i}/>
+              ))}
+            </>
+          )}
           <h1>{totalPricee}</h1>
-          {carts.length > 0 && (
+          {!user ? carts.length : carts?.userProduct?.length > 0 && (
             <Button className="clear-cart" variant="warning" onClick={handle}>
               Clear Cart
             </Button>
