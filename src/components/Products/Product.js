@@ -29,7 +29,7 @@ const Product = ({ product_title, product_main_image_url, product_id,app_sale_pr
       return dispatch(addToCart2({id: product_id,title: product_title,Image: product_main_image_url,price: app_sale_price, userid: user?.user?._id }))
     } 
     console.log(",kkk")
-    dispatch(addToCart({product_id, product_title, product_main_image_url,app_sale_price }));
+    dispatch(addToCart({id: product_id,title: product_title,Image: product_main_image_url,price: app_sale_price, userid: user?.user?._id }));
   };
 
   return (

@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6fa58241.css",
+    "main.js": "/static/js/main.882aedd1.js",
+    "static/media/img3.png": "/static/media/img3.531d1485536122fbd9d9.png",
+    "static/media/amazon4.jpg": "/static/media/amazon4.10455e7255cf90100783.jpg",
+    "static/media/amazon2.jpg": "/static/media/amazon2.bcee394f6954bf0eeca4.jpg",
+    "static/media/amazon3.jpg": "/static/media/amazon3.51d70583586f6b27a865.jpg",
+    "static/media/amazon1.jpg": "/static/media/amazon1.a1bcb082f3d017e44539.jpg",
+    "static/media/amazon0.jpg": "/static/media/amazon0.ad9585fcf0a142380736.jpg",
+    "static/media/logo.png": "/static/media/logo.c258172cbbfae08cdc8d.png",
+    "static/media/cart1.png": "/static/media/cart1.c12c638d355d1db44ef7.png",
+    "static/media/search.svg": "/static/media/search.96869e7ddc5b8aedfd5b293372dbc25c.svg",
+    "index.html": "/index.html",
+    "main.6fa58241.css.map": "/static/css/main.6fa58241.css.map",
+    "main.882aedd1.js.map": "/static/js/main.882aedd1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6fa58241.css",
+    "static/js/main.882aedd1.js"
+  ]
+}

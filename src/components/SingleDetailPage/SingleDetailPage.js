@@ -90,13 +90,18 @@ const Main = styled.div`
     }
   }
   .product-details-img {
-    height: 300px;
+    height: auto;
+    width: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     img {
-      width: 190px;
+      width: 300px;
       height: auto;
+
+      @media (max-width: 600px) {
+        width: 230px;
+      }
     }
   }
   .product-details-ava {

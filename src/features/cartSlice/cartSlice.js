@@ -24,19 +24,19 @@ const CartSlice = createSlice({
     reducers:{
         addToCart:(state, action) => {
             let data = action.payload
-             let existing = state.carts.find((val) => val.id === data.product_id)
+             let existing = state.carts.find((val) => val.id === data.id)
              state.totalPricee.toFixed(2)
-
-             state.totalPricee += parseFloat(data.app_sale_price)
+            //  {id: product_id,title: product_title,Image: product_main_image_url,price: app_sale_price, userid: user?.user?._id }
+             state.totalPricee += parseFloat(data.price)
         
             if (!existing) {
                 state.carts.push({
-                    title: data.product_title,
-                    Image: data.product_main_image_url,
+                    title: data.title,
+                    Image: data.Image,
                     quantity: 1,
-                    id: data.product_id,
-                    price: data.app_sale_price,
-                    totalPrice: data.app_sale_price
+                    id: data.id,
+                    price: data.price,
+                    totalPrice: data.totalPrice
                 })
             }  else if (existing) {
                 existing.totalPrice = parseInt(existing.totalPrice) + parseInt(data.app_sale_price)
@@ -69,6 +69,11 @@ const CartSlice = createSlice({
             const data = action.payload
             state.carts = state.carts.filter((item) => item.id !== data )
 
+        },
+        inc: (state, action) => {
+            const data = action.payload
+
+            const product = carts
         }
     },
     extraReducers: {

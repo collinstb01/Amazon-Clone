@@ -7,9 +7,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { signUp,signIn } from "../features/AuthSlice/AuthSlice";
 import Loader from "../components/Loader";
+import Toast from "../components/toasts";
 
 const Auth = () => {
   const {user, loading} = useSelector((state) => state.auth)
+  const [message, setMessage] = useState("")
+  console.log(message)
 
   const [input, setInput] = useState({
     name: "",
@@ -36,9 +39,9 @@ const Auth = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
    if (!signin) {
-    dispatch(signUp({input, navigate, user2}))
+    dispatch(signUp({input, navigate, setMessage}))
    } else {
-    dispatch(signIn({input, navigate, user2}))
+    dispatch(signIn({input, navigate, setMessage}))
    }
    
     setShow(true)
@@ -84,11 +87,12 @@ const Auth = () => {
           </span>
         </div>
         {
-          show && <div>
+          (show && !message) && <div>
             { loading && <Loader />}
           </div>
         }
       </form>
+      <Toast message={message} />
     </Main>
   );
 };
@@ -130,5 +134,8 @@ const Main = styled.div`
       cursor: pointer;
       color: white;
     }
+  }
+  .warning {
+    padding: 10px 0px;
   }
 `;

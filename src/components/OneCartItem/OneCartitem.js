@@ -70,7 +70,7 @@ const Main = styled.div`
   width: 95%;
   @media (max-width: 900px) {
     width: 100%;
-    grid-template-columns: 20% 70% 10%;
+    grid-template-columns: 1fr 2fr 1fr;
   }
   .cart__info {
     padding-left: 20px;

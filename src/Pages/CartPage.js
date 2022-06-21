@@ -25,18 +25,18 @@ const CartPage = () => {
     }
     dispatch(fetchUserProducts(id));
   }, [id]);
-
+  const length = (carts.length  && carts?.userProduct?.length ) === 0
   return (
     <Main>
       <Navbar />
       <div className=" main">
         <div className="left">
-          {!user ? !carts.length : !carts?.userProduct?.length && (
+          {length ? (
             <div className="empty-crat">
               <img src={img} />
               <h5>Please Add Something To Cart</h5>
             </div>
-          )}
+          ) : "" } 
           {!user ? (
             <>
               {carts?.map((val, i) => (
@@ -50,15 +50,14 @@ const CartPage = () => {
               ))}
             </>
           )}
-          <h1>{totalPricee}</h1>
-          {!user ? carts.length : carts?.userProduct?.length > 0 && (
+          {(carts.length && carts?.userProduct?.length) > 0 && (
             <Button className="clear-cart" variant="warning" onClick={handle}>
               Clear Cart
             </Button>
           )}
         </div>
         <div>
-          <SubTotal />
+          <SubTotal total={totalPricee} />
         </div>
       </div>
       <Footer />

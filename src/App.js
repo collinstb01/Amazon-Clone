@@ -9,13 +9,21 @@ import SearchPage from "./Pages/SearchPage";
 import Auth from "./Pages/Auth";
 
 const App = () => {
-  const user = localStorage.getItem("profile");
+  const user = JSON.parse(localStorage.getItem("profile"))
   return (
     <Router>
       <Main>
         <Routes>
             <Route
-              path={!user ? "/" : "/:id"}
+              path="/:id"
+              element={
+                <div>
+                  <Home />
+                </div>
+              }
+            />
+            <Route
+              path="/"
               element={
                 <div>
                   <Home />
@@ -39,7 +47,7 @@ const App = () => {
             }
           />
           <Route
-            path={!user ? "/cart" : "/:id/cart/"}
+            path="/cart" 
             element={
               <div>
                 <CartPage />
@@ -55,10 +63,41 @@ const App = () => {
               </div>
             }
           />
-      
-        </Routes>
+       <Route
+              path="/:id"
+              element={
+                <div>
+                  <Home />
+                </div>
+              }
+            />
+          <Route
+            path="/:id/search/:query"
+            element={
+              <div>
+                <SearchPage />
+              </div>
+            }
+          />
+          <Route
+            path= "/:id/details/:id"
+            element={
+              <div>
+                <DetailsPage />
+              </div>
+            }
+          />
+          <Route
+            path="/:id/cart"
+            element={
+              <div>
+                <CartPage />
+              </div>
+            }
+          />
+          </Routes>
       </Main>
-    </Router>
+      </Router>
   );
 };
 

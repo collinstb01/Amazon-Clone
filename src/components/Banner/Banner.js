@@ -62,7 +62,7 @@ const Main = styled.div`
   }
 
   #btn {
-    width: 25%;
-    margin: 0px 0px 0px 2px;
+    width: auto;
+    margin-bottom: 10px;
   }
 `;

@@ -11,9 +11,7 @@ import { getUser } from "../../features/AuthSlice/AuthSlice";
 function Navbar() {
   const { user } = useSelector((state) => state.auth);
   
-  const [userr, setuser] = useState(
-    localStorage.getItem("profile")
-  );
+  const [userr, setuser] = useState("");
 
   const { id } = useParams();
   const [input, setInput] = useState("");
@@ -27,14 +25,16 @@ function Navbar() {
     }
     dispatch(fetchProductforSearch(input));
     // console.log('sss')
+   if (userr) {
+    navigate(`/${id}/search/query?${input}`);
+   } else {
     navigate(`/search/query?${input}`);
+   }
   };
 
-  useEffect(() => {
-    if (userr) {
+  useEffect(() => {   
         setuser(JSON.parse(localStorage.getItem("profile")))
-    }
-  }, [user]);
+  }, []);
 
   const auth = () => {
     localStorage.removeItem("profile")
@@ -42,16 +42,17 @@ function Navbar() {
     navigate("/auth")
   }
   const cartRoute = () => {
-    if (userr) {
-    navigate(`/${id}/cart`)
+    if (!userr) {
+      navigate("/cart")
+    } else {
+      navigate(`/${id}/cart`)
     }
     console.log(id)
-    navigate("/cart")
 
   }
   return (
     <Main className="header">
-      <Link to={userr ? "/:id" : "/"}>
+      <Link to={userr ? `/${id}` : "/"}>
         <img
           className="header__logo"
           src="https://pngimg.com/uploads/amazon/amazon_PNG25.png"
@@ -98,6 +99,7 @@ function Navbar() {
           <span className="header__optionLineTwo">& Orders</span>
         </div>
 
+
         <div className="header__option">
           <span className="header__optionLineOne">Your</span>
           <span className="header__optionLineTwo">Prime</span>
@@ -105,7 +107,7 @@ function Navbar() {
         <div className="header__optionBasket" onClick={cartRoute}>
             <BiCartAlt />
           <span className="header__optionLineTwo header__basketCount">
-            {carts?.length}
+            {!userr ? carts?.length : carts?.userProduct?.length}
           </span>
         </div>
       </div>
@@ -141,7 +143,7 @@ const Main = styled.div`
     border-radius: 3px;
     cursor: pointer;
     @media (max-width: 700px) {
-      margin: 0 2px;
+      margin-top: 15px;
     }
   }
 

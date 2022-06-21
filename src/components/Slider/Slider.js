@@ -44,7 +44,7 @@ const Slider = () => {
 export default Slider;
 
 const Main = styled.div`
-  height: 400px;
+  height: auto;
   width: 100%;
   overflow: hidden;
   .home {
