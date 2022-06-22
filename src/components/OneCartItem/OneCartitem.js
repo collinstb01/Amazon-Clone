@@ -1,23 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { addToCart, deleteProduct, removeProduct } from "../../features/cartSlice/cartSlice";
+import {
+  addToCart,
+  deleteOne,
+  deleteProduct,
+  fetchUserProducts,
+  removeProduct,
+} from "../../features/cartSlice/cartSlice";
 import { useDispatch } from "react-redux";
 import { Button } from "react-bootstrap";
 
 const OneCartitem = ({ Image, title, price, id, quantity, totalPrice }) => {
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handle2 = () => {
-    console.log(id);
-    dispatch(deleteProduct(id));
+    if (user) {
+      const userId = user.user._id;
+      dispatch(deleteOne({ id, userId }));
+    }
+    dispatch(deleteProduct(id, totalPrice));
   };
+
   const inc = () => {
     dispatch(
       addToCart({
-       id: id,
+        id: id,
         title: title,
         Image: Image,
         price: price,
+        totalPrice: price,
       })
     );
   };
@@ -72,6 +84,9 @@ const Main = styled.div`
     width: 100%;
     grid-template-columns: 1fr 2fr 1fr;
   }
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
   .cart__info {
     padding-left: 20px;
   }
@@ -88,8 +103,10 @@ const Main = styled.div`
 
   .cart__image {
     object-fit: contain;
-    width: 180px;
+    width: 100%;
     height: 180px;
+    display: flex;
+    justify-content: center;
   }
   .cart__title {
     font-size: 17px;

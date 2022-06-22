@@ -11,21 +11,25 @@ import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 
 const CartPage = () => {
-  const { carts, totalPricee } = useSelector((state) => state.cart);
+  const { carts, totalPricee,message } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log(id);
+  console.log(message);
+  const user = localStorage.getItem("profile");
   const handle = () => {
+    if (user) {
+      return dispatch(deleteAll({ userId: id }));
+    }
     dispatch(clearCart());
   };
-  let user = localStorage.getItem("profile");
+
   useEffect(() => {
     if (!user) {
       return;
     }
     dispatch(fetchUserProducts(id));
-  }, [id]);
-  const length = (carts.length  && carts?.userProduct?.length ) === 0
+  }, [id, dispatch, message]);
+  const length = (carts.length || carts?.userProduct?.length) == 0;
   return (
     <Main>
       <Navbar />
@@ -36,20 +40,23 @@ const CartPage = () => {
               <img src={img} />
               <h5>Please Add Something To Cart</h5>
             </div>
-          ) : "" } 
+          ) : (
+            ""
+          )}
           {!user ? (
             <>
               {carts?.map((val, i) => (
-                <OneCartitem {...val}  key={i}/>
+                <OneCartitem {...val} key={i} />
               ))}
             </>
           ) : (
             <>
               {carts?.userProduct?.map((val, i) => (
-                <OneCartitem {...val} user={user} key={i}/>
+                <OneCartitem {...val} user={user} key={i} />
               ))}
             </>
           )}
+          <p>{message && message.message}</p>
           {(carts.length && carts?.userProduct?.length) > 0 && (
             <Button className="clear-cart" variant="warning" onClick={handle}>
               Clear Cart

@@ -15,19 +15,47 @@ export const fetchUserProducts = createAsyncThunk(
     }
 )
 
+export const deleteOne = createAsyncThunk(
+    "auth/deleteone",
+    async ({id, userId}) => {
+
+        try {
+            const response = await api.deleteOne({id, userId})
+            console.log(response.data)
+            return response.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
+
+export const deleteAll = createAsyncThunk(
+    "auth/deleteAll",
+    async (userId) => {
+
+        try {
+            const response = await api.deleteAll(userId)
+            console.log(response.data)
+            return response.data
+        } catch (error) {
+            console.log(error)
+        }
+    }
+)
 const CartSlice = createSlice({
     name: "cart",
     initialState:{
         carts: [],
         totalPricee: 0,
+        message: {}
     },
     reducers:{
         addToCart:(state, action) => {
             let data = action.payload
-             let existing = state.carts.find((val) => val.id === data.id)
+             let existing = state.carts.find((val) => val.id == data.id)
              state.totalPricee.toFixed(2)
             //  {id: product_id,title: product_title,Image: product_main_image_url,price: app_sale_price, userid: user?.user?._id }
-             state.totalPricee += parseFloat(data.price)
+             state.totalPricee += parseFloat(data.totalPrice)
         
             if (!existing) {
                 state.carts.push({
@@ -39,7 +67,7 @@ const CartSlice = createSlice({
                     totalPrice: data.totalPrice
                 })
             }  else if (existing) {
-                existing.totalPrice = parseInt(existing.totalPrice) + parseInt(data.app_sale_price)
+                existing.totalPrice = parseInt(existing.totalPrice) + parseInt(data.totalPrice)
                 existing.quantity++
             } else {
                 return 
@@ -55,7 +83,7 @@ const CartSlice = createSlice({
             state.totalPricee.toFixed(2)
             item.totalPrice.toFixed(2)
             item.totalPrice -=  data.price
-            state.totalPricee -=  data.price
+            state.totalPricee -=  parseInt(data.totalPrice)
          
 
             if ( item.quantity >= 2 ) {
@@ -85,6 +113,24 @@ const CartSlice = createSlice({
         },
         [fetchUserProducts.rejected]: (state, action) => {
             return {...state, cart: action.payload}
+        },
+        [deleteOne.pending]: (state, action) => {
+            return {...state}
+        },
+        [deleteOne.fulfilled]: (state, action) => {
+            return {...state, message: action.payload}
+        },
+        [deleteOne.rejected]: (state, action) => {
+            return {...state}
+        },
+        [deleteAll.pending]: (state, action) => {
+            return {...state}
+        },
+        [deleteAll.fulfilled]: (state, action) => {
+            return {...state, message: action.payload}
+        },
+        [deleteAll.rejected]: (state, action) => {
+            return {...state}
         }
     }
 })

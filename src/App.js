@@ -9,27 +9,27 @@ import SearchPage from "./Pages/SearchPage";
 import Auth from "./Pages/Auth";
 
 const App = () => {
-  const user = JSON.parse(localStorage.getItem("profile"))
+  const user = JSON.parse(localStorage.getItem("profile"));
   return (
     <Router>
       <Main>
         <Routes>
-            <Route
-              path="/:id"
-              element={
-                <div>
-                  <Home />
-                </div>
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <div>
-                  <Home />
-                </div>
-              }
-            />
+          <Route
+            path="/:id"
+            element={
+              <div>
+                <Home />
+              </div>
+            }
+          />
+          <Route
+            path="/"
+            element={
+              <div>
+                <Home />
+              </div>
+            }
+          />
           <Route
             path="/search/:query"
             element={
@@ -47,15 +47,15 @@ const App = () => {
             }
           />
           <Route
-            path="/cart" 
+            path="/cart"
             element={
               <div>
                 <CartPage />
               </div>
             }
           />
-       
-            <Route
+
+          <Route
             path="/auth"
             element={
               <div>
@@ -63,14 +63,14 @@ const App = () => {
               </div>
             }
           />
-       <Route
-              path="/:id"
-              element={
-                <div>
-                  <Home />
-                </div>
-              }
-            />
+          <Route
+            path="/:id"
+            element={
+              <div>
+                <Home />
+              </div>
+            }
+          />
           <Route
             path="/:id/search/:query"
             element={
@@ -80,7 +80,7 @@ const App = () => {
             }
           />
           <Route
-            path= "/:id/details/:id"
+            path="/:id/details/:id"
             element={
               <div>
                 <DetailsPage />
@@ -95,9 +95,9 @@ const App = () => {
               </div>
             }
           />
-          </Routes>
+        </Routes>
       </Main>
-      </Router>
+    </Router>
   );
 };
 

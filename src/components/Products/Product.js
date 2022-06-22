@@ -2,34 +2,64 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { addToCart, fetchUserProducts } from "../../features/cartSlice/cartSlice";
+import {
+  addToCart,
+  fetchUserProducts,
+} from "../../features/cartSlice/cartSlice";
 import { addToCart2 } from "../../features/AuthSlice/AuthSlice";
 
-const Product = ({ product_title, product_main_image_url, product_id,app_sale_price }) => {
-  const user = JSON.parse(localStorage.getItem("profile"))
-  console.log(user)
+const Product = ({
+  product_title,
+  product_main_image_url,
+  product_id,
+  app_sale_price,
+}) => {
+  const user = JSON.parse(localStorage.getItem("profile"));
+  console.log(user);
   const [iid, setid] = useState(product_id);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+
   const handle = () => {
+    if (user) {
+      return navigate(`/${id}/details/${iid}`);
+    }
     navigate(`/details/${iid}`);
+
     setid("");
   };
-  const {id} = useParams()
-  console.log(id)
+  console.log(id);
   useEffect(() => {
     if (!user) {
-      return
+      return;
     }
-    dispatch(fetchUserProducts(id))
-  }, [dispatch])
+    dispatch(fetchUserProducts(id));
+  }, [dispatch]);
   const handle2 = () => {
     if (user) {
-      console.log({product_id, product_title, product_main_image_url });
-      return dispatch(addToCart2({id: product_id,title: product_title,Image: product_main_image_url,price: app_sale_price, userid: user?.user?._id }))
-    } 
-    console.log(",kkk")
-    dispatch(addToCart({id: product_id,title: product_title,Image: product_main_image_url,price: app_sale_price, userid: user?.user?._id }));
+      console.log({ product_id, product_title, product_main_image_url });
+      return dispatch(
+        addToCart2({
+          id: product_id,
+          title: product_title,
+          Image: product_main_image_url,
+          price: app_sale_price,
+          userid: user?.user?._id,
+        })
+      );
+    }
+    console.log(",kkk");
+    dispatch(
+      addToCart({
+        id: product_id,
+        title: product_title,
+        Image: product_main_image_url,
+        price: app_sale_price,
+        totalPrice: app_sale_price,
+        userid: user?.user?._id,
+      })
+    );
   };
 
   return (
