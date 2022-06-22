@@ -29,7 +29,7 @@ const CartPage = () => {
     }
     dispatch(fetchUserProducts(id));
   }, [id, dispatch, message]);
-  const length = (carts.length || carts?.userProduct?.length) == 0;
+  const length = (carts.length && carts?.userProduct?.length) == 0;
   return (
     <Main>
       <Navbar />
