@@ -196,6 +196,7 @@ const Main = styled.div`
     border: none;
     width: 100%;
     border-radius: 5px 0 0 5px;
+    box-sizing: initial;
   }
 
   .header__searchInput:focus {
@@ -206,6 +207,7 @@ const Main = styled.div`
   .header__searchIcon {
     padding: 5px;
     height: 22px !important;
+    box-sizing: content-box;
     background-color: #cd9042;
   }
 
