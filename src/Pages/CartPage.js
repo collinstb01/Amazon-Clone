@@ -18,7 +18,7 @@ const CartPage = () => {
   const user = localStorage.getItem("profile");
   const handle = () => {
     if (user) {
-      return dispatch(deleteAll({ userId: id }));
+     // return dispatch(deleteAll({ userId: id }));
     }
     dispatch(clearCart());
   };

@@ -42,7 +42,7 @@ export const fetchProductforSearch = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log("cant fetch");
-      setMessage("Cant Fecth Data,Please Check Your Connection");
+      // setMessage("Cant Fecth Data,Please Check Your Connection");
     }
   }
 );

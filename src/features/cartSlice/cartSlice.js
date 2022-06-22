@@ -97,11 +97,6 @@ const CartSlice = createSlice({
             const data = action.payload
             state.carts = state.carts.filter((item) => item.id !== data )
 
-        },
-        inc: (state, action) => {
-            const data = action.payload
-
-            const product = carts
         }
     },
     extraReducers: {

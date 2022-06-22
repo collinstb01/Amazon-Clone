@@ -6,8 +6,12 @@ import { fetchProductByCatefory } from "../features/productSlice/productSlice";
 const Category = ({ name, id }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = localStorage.getItem("profile")
   function handle2() {
-    `/search/query?${id}`;
+    if (user) {
+      return navigate(`/:id/search/query?${id}`);
+    }
+    navigate(`/search/query?${id}`);
     console.log(id);
   }
   useEffect(() => {
