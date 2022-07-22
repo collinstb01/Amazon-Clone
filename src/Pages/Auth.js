@@ -78,7 +78,7 @@ const Auth = () => {
             onChange={handle}
           />
         )}
-        <Button variant="secondary" type="submit">{signIn ? "Sign In" : "Sign Up"}</Button>
+        <Button variant="secondary" type="submit">{signin ? "Sign In" : "Sign Up"}</Button>
         <div onClick={handle2} className="signbtn">
           <span>
             {signin
