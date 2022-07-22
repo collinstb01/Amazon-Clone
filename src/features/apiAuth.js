@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const API = axios.create({
-    baseURL: "http://localhost:5000/api"
+    baseURL: "https://amazone-clone-techsavvyyy.herokuapp.com/api"
 })
 
 // export const getUser = (id) => API.get(`/getUser/${id}`, id)
